@@ -1,0 +1,55 @@
+swagger: '2.0'
+info:
+  version: '0.3.1'
+  title: Users
+  description: Users API
+
+basePath: /users
+schemes:
+  - http
+  - https
+
+produces:
+  - application/json
+
+paths:
+  /users:
+    get:
+      description: Returns all users
+      operationId: users
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: user response
+          schema:
+            $ref: '#/definitions/GetUsersReply'
+
+definitions:
+  User:
+    id: User
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      userName:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      age:
+        type: integer
+        format: int64
+      emailAddress:
+        type: string
+  GetUsersReply:
+    id: GetUsersReply
+    type: object
+    properties:
+      users:
+        type: array
+        items:
+          $ref: '#/definitions/User'
+

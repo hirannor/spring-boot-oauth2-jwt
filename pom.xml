@@ -23,24 +23,28 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<frontendSrcDir>${project.basedir}/src/main/app</frontendSrcDir>
-		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
-		<swagger2.version>2.6.1</swagger2.version>
 		<npm.version>5.6.0</npm.version>
 		<node.version>v8.9.4</node.version>
+		<frontendSrcDir>${project.basedir}/src/main/app</frontendSrcDir>
+		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
+		<springfox.version>2.6.1</springfox.version>
+		<swagger-codegen.version>2.4.0</swagger-codegen.version>
+		<modelmapper.version>2.3.2</modelmapper.version>
+		<commons-lang3.version>3.8.1</commons-lang3.version>
+		<commons-math.version>2.2</commons-math.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${swagger2.version}</version>
+			<version>${springfox.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
-			<version>${swagger2.version}</version>
+			<version>${springfox.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -74,6 +78,21 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${modelmapper.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math</artifactId>
+			<version>${commons-math.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -125,7 +144,7 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>position-react-build</id>
+						<id>copy-react-build</id>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
@@ -142,7 +161,31 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>${swagger-codegen.version}</version>
+				<executions>
+					<execution>
+						<id>generate-server</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/api/users.yaml</inputSpec>
+							<language>spring</language>
+							<apiPackage>com.example.springreactdemo.api</apiPackage>
+							<modelPackage>com.example.springreactdemo.dto</modelPackage>
+							<output>${project.build.directory}/generated-sources</output>
+							<configOptions>
+								<java8>true</java8>
+								<interfaceOnly>true</interfaceOnly>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
