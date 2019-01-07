@@ -1,17 +1,17 @@
 package com.example.springreactdemo.repository;
 
-import com.example.springreactdemo.domain.UserModel;
+import com.example.springreactdemo.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository interface for CRUD operations
+ * UserManagementRepository interface for usermanagement related CRUD operations
  * 
  * @author mate.karolyi
  *
  */
 @Repository
-public interface UserRepository extends JpaRepository<UserModel, Long>
+public interface UserManagementRepository extends JpaRepository<User, Long>
 {
 
 }

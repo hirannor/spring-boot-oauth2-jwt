@@ -2,10 +2,10 @@ package com.example.springreactdemo.security.config;
 
 import com.example.springreactdemo.security.filter.JwtAuthenticationFilter;
 import com.example.springreactdemo.security.filter.JwtAuthorizationFilter;
+import com.example.springreactdemo.security.jwt.JwtTokenGenerator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,18 +27,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationEntryPoint unauthorizedAuthenticationEntrypoint;
     private UserDetailsService userDetailsService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public SecurityConfiguration(@Qualifier("MyUserDetailsService") UserDetailsService userDetailsService, AuthenticationEntryPoint unauthorizedAuthenticationEntrypoint, BCryptPasswordEncoder bCryptPasswordEncoder)
+    public SecurityConfiguration(@Qualifier("MyUserDetailsService") UserDetailsService userDetailsService, AuthenticationEntryPoint unauthorizedAuthenticationEntrypoint)
     {
         this.userDetailsService = userDetailsService;
         this.unauthorizedAuthenticationEntrypoint = unauthorizedAuthenticationEntrypoint;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(getBCryptPasswordEncoder());
     }
 
     @Bean
@@ -57,9 +55,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedAuthenticationEntrypoint)
             .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManagerBean(), new AntPathRequestMatcher("/auth", "POST")))
+                .addFilter(new JwtAuthenticationFilter(authenticationManagerBean(), getJwtTokenGenerator(), new AntPathRequestMatcher("/auth", "POST")))
                 .addFilter(new JwtAuthorizationFilter(authenticationManagerBean()))
                 .authorizeRequests().antMatchers("/auth", "/h2/**").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/usermanagement/users").authenticated()
+                .antMatchers("/usermanagement/users").hasRole("ADMIN");
+    }
+
+    @Bean
+    public BCryptPasswordEncoder getBCryptPasswordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtTokenGenerator getJwtTokenGenerator()
+    {
+        return new JwtTokenGenerator();
     }
 }

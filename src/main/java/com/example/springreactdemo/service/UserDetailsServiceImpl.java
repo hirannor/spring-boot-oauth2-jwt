@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 
 
+/**
+ * UserDetailsService implementation of {@link UserDetailsService}
+ * Loads user specific data for authentication process
+ *
+ * @author mate.karolyi
+ */
 @Service("MyUserDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -32,6 +38,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         GrantedAuthority authority = new SimpleGrantedAuthority(credentials.getRole());
 
         return new User(credentials.getUserName(), credentials.getPassword(), Arrays.asList(authority));
-
     }
 }

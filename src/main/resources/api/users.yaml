@@ -1,10 +1,10 @@
 swagger: '2.0'
 info:
   version: '0.3.1'
-  title: Users
-  description: Users API
+  title: User Management
+  description: User Management API
 
-basePath: /users
+basePath: /usermanagement/
 schemes:
   - http
   - https
@@ -13,10 +13,10 @@ produces:
   - application/json
 
 paths:
-  /users:
+  /usermanagement/users:
     get:
       description: Returns all users
-      operationId: users
+      operationId: getUsers
       produces:
         - application/json
       responses:

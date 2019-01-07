@@ -3,7 +3,6 @@ package com.example.springreactdemo.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.UUID;
 
 /**
  * User DTO class
@@ -12,7 +11,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "USER")
-public class UserModel
+public class User
 {
     @Id
     private String userName;
@@ -21,12 +20,12 @@ public class UserModel
     private int age;
     private String emailAddress;
 
-    public UserModel()
+    public User()
     {
         super();
     }
 
-    public UserModel(String userName, String firstName, String lastName, int age, String emailAddress)
+    public User(String userName, String firstName, String lastName, int age, String emailAddress)
     {
         super();
         this.userName = userName;

@@ -6,12 +6,11 @@ import com.example.springreactdemo.dto.User;
 import java.util.List;
 
 /**
- * User service API
+ * UserManagementService API
  * 
  * @author mate.karolyi
- *
  */
-public interface UserService
+public interface UserManagementService
 {
 	/**
 	 * @return

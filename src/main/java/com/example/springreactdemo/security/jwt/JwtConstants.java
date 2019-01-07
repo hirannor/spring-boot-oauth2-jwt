@@ -1,4 +1,4 @@
-package com.example.springreactdemo.security;
+package com.example.springreactdemo.security.jwt;
 
 public class JwtConstants {
     public static final String HEADER_STRING = "Authorization";
