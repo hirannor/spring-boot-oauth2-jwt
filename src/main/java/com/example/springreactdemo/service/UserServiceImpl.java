@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * User service implementation of {@link UserService}
  *
- * @author hirannor
+ * @author mate.karolyi
  *
  */
 @Service
@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService
 		for(UserModel userModel : userRepository.findAll())
 		{
 			users.add(modelMapper.map(userModel, User.class));
-
 		}
 		return users;
 	}

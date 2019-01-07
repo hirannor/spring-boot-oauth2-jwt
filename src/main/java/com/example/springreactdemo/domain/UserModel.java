@@ -2,18 +2,19 @@ package com.example.springreactdemo.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 /**
  * User DTO class
  *
- * @author hirannor
+ * @author mate.karolyi
  */
 @Entity
+@Table(name = "USER")
 public class UserModel
 {
     @Id
-    private UUID id;
     private String userName;
     private String firstName;
     private String lastName;
@@ -25,25 +26,14 @@ public class UserModel
         super();
     }
 
-    public UserModel(UUID id, String userName, String firstName, String lastName, int age, String emailAddress)
+    public UserModel(String userName, String firstName, String lastName, int age, String emailAddress)
     {
         super();
-        this.id = id;
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.emailAddress = emailAddress;
-    }
-
-    public UUID getId()
-    {
-        return id;
-    }
-
-    public void setId(UUID id)
-    {
-        this.id = id;
     }
 
     public String getUserName()

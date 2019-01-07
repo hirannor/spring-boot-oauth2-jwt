@@ -30,9 +30,6 @@ definitions:
     id: User
     type: object
     properties:
-      id:
-        type: string
-        format: uuid
       userName:
         type: string
       firstName:

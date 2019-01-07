@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Spring controller implementation of {@link UsersApi}
  * 
- * @author hirannor
+ * @author mate.karolyi
  *
  */
 @RestController

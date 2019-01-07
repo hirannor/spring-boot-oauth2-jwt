@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * User service API
  * 
- * @author hirannor
+ * @author mate.karolyi
  *
  */
 public interface UserService

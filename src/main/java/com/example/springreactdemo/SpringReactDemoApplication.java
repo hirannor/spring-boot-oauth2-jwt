@@ -4,9 +4,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
- * @author hirannor
+ * Main entry point of spring boot app
+ * @author mate.karolyi
  */
 @SpringBootApplication
 public class SpringReactDemoApplication
@@ -19,5 +21,11 @@ public class SpringReactDemoApplication
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
+	}
+
+	@Bean
+	public BCryptPasswordEncoder getBCryptPasswordEncoder()
+	{
+		return new BCryptPasswordEncoder();
 	}
 }
