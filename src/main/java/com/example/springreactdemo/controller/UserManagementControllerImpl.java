@@ -1,6 +1,6 @@
 package com.example.springreactdemo.controller;
 
-import com.example.springreactdemo.api.UsermanagementApi;
+import com.example.springreactdemo.controller.api.UsermanagementApi;
 import com.example.springreactdemo.dto.GetUsersReply;
 import com.example.springreactdemo.service.UserManagementService;
 import org.springframework.http.HttpStatus;

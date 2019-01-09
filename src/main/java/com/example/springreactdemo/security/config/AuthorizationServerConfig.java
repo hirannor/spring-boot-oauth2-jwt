@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -31,6 +32,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private static final String SCOPE_READ = "read";
     private static final String SCOPE_WRITE = "write";
     private static final String TRUST = "trust";
+    private static final String RESOURCE_ID = "oauth2-resource";
+    private static final String ROLE_CLIENT_AUTHORITY = "ROLE_CLIENT";
+    private static final String ROLE_TRUSTED_CLIENT_AUTHORITY = "ROLE_TRUSTED_CLIENT";
+
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1 * 60 * 60;
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 6 * 60 * 60;
 
@@ -50,7 +55,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Qualifier("MyUserDetailsService")
     private UserDetailsService userDetailsService;
 
-
     @Autowired
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
@@ -62,10 +66,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret(CLIENT_SECRET)
                 .authorizedGrantTypes(PASSWORD_GRANT_TYPE)
                 .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
+                .authorities(ROLE_CLIENT_AUTHORITY, ROLE_TRUSTED_CLIENT_AUTHORITY)
+                .resourceIds(RESOURCE_ID)
                 .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
                 .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
-                .autoApprove(true)
-                .and().build();
+                .autoApprove(true);
     }
 
     @Override

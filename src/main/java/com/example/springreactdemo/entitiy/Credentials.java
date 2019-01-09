@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Credentials DTO class
+ * Credentials Entity
  *
  * @author mate.karolyi
  */

@@ -1,22 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+
     <Properties>
-        <Property name="LOG_PATTERN">
-            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
-        </Property>
+        <Property name="log-path">C:\logs</Property>
     </Properties>
+
     <Appenders>
-        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
+        <File name="App-File-Appender" fileName="${log-path}/app_log.log">
+            <PatternLayout
+                    pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n" />
+        </File>
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="[%-5p];%d{yyyy-MM-dd HH:mm:ss};[%t];%C{1};(%F:%L);%m%n" />
         </Console>
+        <File name="SpringBoot-File-Appender" fileName="${log-path}/springboot_log.log" >
+            <PatternLayout>
+                <pattern>
+                    [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>
+            </PatternLayout>
+        </File>
     </Appenders>
+
     <Loggers>
-        <Logger name="com.example.log4j2demo" level="debug" additivity="false">
-            <AppenderRef ref="ConsoleAppender" />
+        <Logger name="org.springframework" level="debug" additivity="false">
+            <AppenderRef ref="SpringBoot-File-Appender"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.springframework.security" level="debug" additivity="false">
+            <AppenderRef ref="SpringBoot-File-Appender"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.springframework.security.oauth2" level="debug" additivity="false">
+            <AppenderRef ref="SpringBoot-File-Appender"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.springframework.beans" level="debug" additivity="false">
+            <AppenderRef ref="SpringBoot-File-Appender"/>
+            <AppenderRef ref="Console-Appender"/>
         </Logger>
 
-        <Root level="info">
-            <AppenderRef ref="ConsoleAppender" />
+        <Logger name="com.example.springreactdemo" level="error" additivity="false">
+            <AppenderRef ref="App-File-Appender"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Root>
+            <AppenderRef ref="Console-Appender"/>
         </Root>
     </Loggers>
+
 </Configuration>

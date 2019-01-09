@@ -25,7 +25,7 @@
 		<java.version>1.8</java.version>
 		<npm.version>5.6.0</npm.version>
 		<node.version>v8.9.4</node.version>
-		<frontendSrcDir>${project.basedir}/src/main/app</frontendSrcDir>
+		<frontendSrcDir>${project.basedir}/src/main/resources/frontend</frontendSrcDir>
 		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
 		<springfox.version>2.6.1</springfox.version>
 		<swagger-codegen.version>2.4.0</swagger-codegen.version>
@@ -193,7 +193,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/api/users.yaml</inputSpec>
+							<inputSpec>${project.basedir}/src/main/resources/api/usermanagement.yaml</inputSpec>
 							<language>spring</language>
 							<apiPackage>com.example.springreactdemo.controller.api</apiPackage>
 							<modelPackage>com.example.springreactdemo.dto</modelPackage>
