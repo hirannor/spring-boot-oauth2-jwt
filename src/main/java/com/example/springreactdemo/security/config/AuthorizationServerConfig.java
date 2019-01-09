@@ -59,11 +59,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource)
                 .withClient(CLIENT_ID)
-                .secret(CLIENT_SECRET)
+                .secret(bCryptPasswordEncoder.encode(CLIENT_SECRET))
                 .authorizedGrantTypes(PASSWORD_GRANT_TYPE)
                 .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
                 .authorities(ROLE_CLIENT_AUTHORITY, ROLE_TRUSTED_CLIENT_AUTHORITY)

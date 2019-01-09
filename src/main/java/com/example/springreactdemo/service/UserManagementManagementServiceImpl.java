@@ -20,7 +20,7 @@ public class UserManagementManagementServiceImpl implements UserManagementServic
 
 	private ModelMapper modelMapper;
 
-	public UserManagementManagementServiceImpl(UserManagementRepository userDao, ModelMapper modelMapper)
+	public UserManagementManagementServiceImpl(UserManagementRepository userManagementRepository, ModelMapper modelMapper)
 	{
 		this.userManagementRepository = userManagementRepository;
 		this.modelMapper = modelMapper;

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author mate.karolyi
  */
 @RestController
-@Secured("ADMIN")
 @RequestMapping("/api/")
 public class UserManagementControllerImpl implements UsermanagementApi
 {
