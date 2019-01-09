@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -43,10 +44,12 @@ public class ObjectMapperUtil {
         }
     }
 
-    public static Object deserialize(HttpServletRequest request, Class c)
+    public static Object deserialize(ServletRequest request, Class c)
     {
+        HttpServletRequest req = (HttpServletRequest) request;
+
         try {
-            return new ObjectMapper().readValue(request.getInputStream(), c);
+            return new ObjectMapper().readValue(req.getInputStream(), c);
         }
         catch(IOException ex)
         {

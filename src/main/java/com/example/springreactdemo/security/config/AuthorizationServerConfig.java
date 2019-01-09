@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -27,7 +26,6 @@ import javax.sql.DataSource;
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private static final String CLIENT_ID = "myapp-client";
-    private static final String CLIENT_SECRET = "myapp-secret";
     private static final String PASSWORD_GRANT_TYPE = "password";
     private static final String SCOPE_READ = "read";
     private static final String SCOPE_WRITE = "write";
@@ -59,14 +57,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource)
                 .withClient(CLIENT_ID)
-                .secret(bCryptPasswordEncoder.encode(CLIENT_SECRET))
                 .authorizedGrantTypes(PASSWORD_GRANT_TYPE)
                 .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
                 .authorities(ROLE_CLIENT_AUTHORITY, ROLE_TRUSTED_CLIENT_AUTHORITY)
@@ -81,5 +75,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.tokenStore(tokenStore).tokenEnhancer(jwtTokenEnhancer).userApprovalHandler(userApprovalHandler)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
+    }
+
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+        oauthServer.allowFormAuthenticationForClients();
     }
 }
