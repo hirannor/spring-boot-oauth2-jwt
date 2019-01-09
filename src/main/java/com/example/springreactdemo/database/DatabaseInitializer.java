@@ -1,7 +1,7 @@
 package com.example.springreactdemo.database;
 
-import com.example.springreactdemo.domain.Credentials;
-import com.example.springreactdemo.domain.User;
+import com.example.springreactdemo.entitiy.Credentials;
+import com.example.springreactdemo.entitiy.User;
 import com.example.springreactdemo.repository.CredentialsRepository;
 import com.example.springreactdemo.repository.UserManagementRepository;
 import org.apache.commons.lang3.RandomStringUtils;

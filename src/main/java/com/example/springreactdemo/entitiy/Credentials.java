@@ -1,4 +1,4 @@
-package com.example.springreactdemo.domain;
+package com.example.springreactdemo.entitiy;
 
 
 import javax.persistence.Entity;

@@ -1,6 +1,6 @@
 package com.example.springreactdemo.service;
 
-import com.example.springreactdemo.domain.Credentials;
+import com.example.springreactdemo.entitiy.Credentials;
 import com.example.springreactdemo.repository.CredentialsRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

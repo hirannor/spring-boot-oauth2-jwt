@@ -32,8 +32,8 @@
 		<modelmapper.version>2.3.2</modelmapper.version>
 		<commons-lang3.version>3.8.1</commons-lang3.version>
 		<commons-math.version>2.2</commons-math.version>
-		<java-jwt.version>3.4.1</java-jwt.version>
         <springsecurityoauth2.version>2.3.4.RELEASE</springsecurityoauth2.version>
+		<spring-security-jwt.version>1.0.9.RELEASE</spring-security-jwt.version>
 	</properties>
 
 	<dependencies>
@@ -101,31 +101,19 @@
 			<version>${commons-math.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.auth0</groupId>
-			<artifactId>java-jwt</artifactId>
-			<version>${java-jwt.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-jwt</artifactId>
-			<version>1.0.9.RELEASE</version>
+			<version>${spring-security-jwt.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>${springsecurityoauth2.version}</version>
         </dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>0.9.0</version>
-		</dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
     </dependencies>
 
 	<build>
@@ -207,7 +195,7 @@
 						<configuration>
 							<inputSpec>${project.basedir}/src/main/resources/api/users.yaml</inputSpec>
 							<language>spring</language>
-							<apiPackage>com.example.springreactdemo.api</apiPackage>
+							<apiPackage>com.example.springreactdemo.controller.api</apiPackage>
 							<modelPackage>com.example.springreactdemo.dto</modelPackage>
 							<output>${project.build.directory}/generated-sources</output>
 							<configOptions>

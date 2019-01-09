@@ -1,6 +1,5 @@
 package com.example.springreactdemo.security.config;
 
-import com.example.springreactdemo.security.jwt.JwtTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -26,11 +25,24 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
  * Security configuration
+ *
  * @author mate.karolyi
  */
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private static final String[] AUTH_WHITELIST = {
+        "/v2/api-docs",
+        "/swagger-resources",
+        "/swagger-resources/**",
+        "/configuration/ui",
+        "/configuration/security",
+        "/swagger-ui.html",
+        "/webjars/**",
+        "/h2/**",
+        "/oauth/token"
+    };
 
     @Autowired
     private ClientDetailsService clientDetailsService;
@@ -55,12 +67,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
+                .and()
                 .headers().frameOptions().sameOrigin()
-            .and()
-                .authorizeRequests().antMatchers("/api-docs/**", "/h2/**").permitAll();
+                .and()
+                .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
     }
 
     @Bean
@@ -70,6 +82,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     protected JwtAccessTokenConverter jwtTokenEnhancer() {
+
+        // Generate private key with Java key store
+        // Read this key from classpath and add it to java key store
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey("Demo-Key-1");
 
@@ -93,14 +108,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder getBCryptPasswordEncoder()
-    {
+    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public JwtTokenGenerator getJwtTokenGenerator()
-    {
-        return new JwtTokenGenerator();
     }
 }

@@ -22,15 +22,15 @@ public class UserManagementManagementServiceImpl implements UserManagementServic
 
 	public UserManagementManagementServiceImpl(UserManagementRepository userDao, ModelMapper modelMapper)
 	{
-		this.userManagementRepository = userDao;
+		this.userManagementRepository = userManagementRepository;
 		this.modelMapper = modelMapper;
 	}
 
 	@Override
 	public List<User> getUsers()
 	{
-		List<User> users = new ArrayList<com.example.springreactdemo.dto.User>();
-		for(com.example.springreactdemo.domain.User user : userManagementRepository.findAll())
+		List<User> users = new ArrayList<User>(0);
+		for(com.example.springreactdemo.entitiy.User user : userManagementRepository.findAll())
 		{
 			users.add(modelMapper.map(user, User.class));
 		}
@@ -43,9 +43,9 @@ public class UserManagementManagementServiceImpl implements UserManagementServic
 	}
 
 	@Override
-	public com.example.springreactdemo.dto.User addUser(User user)
+	public User addUser(User user)
 	{
-		return	modelMapper.map(userManagementRepository.save(modelMapper.map(user, com.example.springreactdemo.domain.User.class)), User.class);
+		return	modelMapper.map(userManagementRepository.save(modelMapper.map(user, com.example.springreactdemo.entitiy.User.class)), User.class);
 	}
 
 	@Override

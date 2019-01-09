@@ -1,6 +1,6 @@
 package com.example.springreactdemo.repository;
 
-import com.example.springreactdemo.domain.User;
+import com.example.springreactdemo.entitiy.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

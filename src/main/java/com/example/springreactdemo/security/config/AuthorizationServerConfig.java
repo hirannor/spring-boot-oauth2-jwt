@@ -16,19 +16,23 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 
 import javax.sql.DataSource;
 
+
+/**
+ * Authorization Server Configuration
+ * @author mate.karolyi
+ */
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private static final String CLIENT_ID = "myapp-client";
     private static final String CLIENT_SECRET = "myapp-secret";
-    private static final String GRANT_TYPE = "password";
+    private static final String PASSWORD_GRANT_TYPE = "password";
     private static final String SCOPE_READ = "read";
     private static final String SCOPE_WRITE = "write";
     private static final String TRUST = "trust";
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1 * 60 * 60;
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 6 * 60 * 60;
-    private static final String REALM = "MY_APP";
 
     @Autowired
     private DataSource dataSource;
@@ -56,7 +60,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.jdbc(dataSource)
                 .withClient(CLIENT_ID)
                 .secret(CLIENT_SECRET)
-                .authorizedGrantTypes(GRANT_TYPE)
+                .authorizedGrantTypes(PASSWORD_GRANT_TYPE)
                 .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
                 .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
                 .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
@@ -69,10 +73,5 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.tokenStore(tokenStore).tokenEnhancer(jwtTokenEnhancer).userApprovalHandler(userApprovalHandler)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
-    }
-
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        oauthServer.realm(REALM);
     }
 }
