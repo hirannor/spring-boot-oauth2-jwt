@@ -12,16 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.approval.ApprovalStore;
-import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
-import org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler;
-import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-
-import javax.servlet.Filter;
 
 /**
  * Security configuration
@@ -44,17 +34,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/oauth/token"
     };
 
-    @Autowired
-    @Qualifier("JsonToUrlEncodedAuthenticationFilter")
-    private Filter jsonToUrlEncodedAuthenticationFilter;
-
-    @Autowired
-    private ClientDetailsService clientDetailsService;
-
     @Qualifier("MyUserDetailsService")
     @Autowired
     private UserDetailsService userDetailsService;
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -70,47 +52,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .headers().frameOptions().sameOrigin()
-                .and()
-                .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .headers().frameOptions().sameOrigin()
+            .and()
+            .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
     }
 
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(jwtTokenEnhancer());
-    }
-
-    @Bean
-    protected JwtAccessTokenConverter jwtTokenEnhancer() {
-        // Generate private key with Java key store
-        // Read this key from classpath and add it to java key store
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("Demo-Key-1");
-
-        return converter;
-    }
-
-    @Bean
-    public TokenStoreUserApprovalHandler userApprovalHandler(TokenStore tokenStore) {
-        TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
-        handler.setTokenStore(tokenStore);
-        handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsService));
-        handler.setClientDetailsService(clientDetailsService);
-        return handler;
-    }
-
-    @Bean
-    public ApprovalStore approvalStore(TokenStore tokenStore) throws Exception {
-        TokenApprovalStore store = new TokenApprovalStore();
-        store.setTokenStore(tokenStore);
-        return store;
-    }
 
     @Bean
     public BCryptPasswordEncoder getBCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
